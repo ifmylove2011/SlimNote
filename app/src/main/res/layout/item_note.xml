@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="note"
+            type="com.xter.slimnotek.data.Note" />
+
+        <variable
+            name="noteViewModel"
+            type="com.xter.slimnotek.ui.note.NoteViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_note_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{note.title}"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="标题"
+            app:layout_constraintEnd_toStartOf="@+id/tv_note_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_note_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:text="@{note.abstractContent}"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_note_title"
+            tools:text="我是一条记录的内容" />
+
+        <TextView
+            android:id="@+id/tv_note_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="某年某月某日"
+            android:textSize="18sp"
+            android:text="@{note.updateTime}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_note_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_notes_fragment">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.xter.slimnotek.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/home_to_gallery"
+            app:destination="@id/nav_gallery" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.xter.slimnotek.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.xter.slimnotek.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_tools"
+        android:name="com.xter.slimnotek.ui.tools.ToolsFragment"
+        android:label="@string/menu_tools"
+        tools:layout="@layout/fragment_tools" />
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.xter.slimnotek.ui.share.ShareFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/fragment_share" />
+
+    <fragment
+        android:id="@+id/nav_send"
+        android:name="com.xter.slimnotek.ui.send.SendFragment"
+        android:label="@string/menu_send"
+        tools:layout="@layout/fragment_send" />
+
+    <fragment
+        android:id="@+id/nav_notes_fragment"
+        android:name="com.xter.slimnotek.ui.note.NoteFragment"
+        android:label="{title}">
+        <action
+            android:id="@+id/notes_to_add"
+            app:destination="@id/nav_note_add_fragment" />
+        <argument
+            android:name="title"
+            android:defaultValue="所有笔记"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_note_add_fragment"
+        android:name="com.xter.slimnotek.ui.note.AddNoteFragment"
+        android:label="@string/label_add"></fragment>
+</navigation>
