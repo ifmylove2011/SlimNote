@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.xter.slimnotek.NoteApp
@@ -57,6 +58,16 @@ class AddNoteFragment : Fragment() {
             Observer<String> {
                 view?.showSnackbar(it, Snackbar.LENGTH_SHORT)
             })
+        addNoteViewModel.completed.observe(viewLifecycleOwner,Observer<Boolean>{
+            if(it){
+                navigateToNotes()
+            }
+        })
+    }
+
+    private fun navigateToNotes(){
+        val action = AddNoteFragmentDirections.addToNotes("所有笔记")
+        findNavController().navigate(action)
     }
 
 }

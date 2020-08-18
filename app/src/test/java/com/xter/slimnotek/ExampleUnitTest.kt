@@ -16,6 +16,15 @@ class ExampleUnitTest {
     }
 
     @Test
+    fun testMap(){
+        val str = ('a'..'z') + ('A'..'Z') +('0'..'9')
+        println(str.shuffled().subList(0,4).joinToString(""))
+        (0..10).map{
+            println(it)
+        }
+    }
+
+    @Test
     fun testScope() {
         val numbers = mutableListOf<Int>()
         val result = with(numbers) {

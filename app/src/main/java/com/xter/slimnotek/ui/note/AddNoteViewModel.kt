@@ -1,6 +1,5 @@
 package com.xter.slimnotek.ui.note
 
-import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +18,8 @@ class AddNoteViewModel constructor(private val noteSource: NoteSource) : ViewMod
     private val mSnackbarText = MutableLiveData<String>()
     val snackbarText: LiveData<String> = mSnackbarText
 
+    val completed = MutableLiveData<Boolean>(false)
+
     fun saveNote() {
         if (title.value.isNullOrEmpty()) {
             mSnackbarText.value = "标题不可为空"
@@ -29,17 +30,22 @@ class AddNoteViewModel constructor(private val noteSource: NoteSource) : ViewMod
         val con = content.value
         val abstractContent = getAbstract(con)
         val note = Note(
-            title.value!!, content.value!!,
-            abstractContent!!, firstDate, firstDate, firstDate
+            title.value!!, content.value,
+            abstractContent, firstDate, firstDate, firstDate
         )
 
         viewModelScope.launch {
             noteSource.addNote(note)
+            completed.value = true
             mSnackbarText.value = "保存成功"
         }
     }
 
     fun getAbstract(src: String?): String? {
-        return src?.substring(0, 20)
+        if (src.isNullOrEmpty() || src.length < 20) {
+            return src
+        } else {
+            return src.substring(0, 20)
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.xter.slimnotek.ui.note
 import androidx.lifecycle.*
 import com.xter.slimnotek.data.Note
 import com.xter.slimnotek.data.NoteSource
+import com.xter.slimnotek.util.L
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
@@ -50,4 +51,5 @@ class NoteViewModel(
     fun refresh(){
         mUpdate.value = true
     }
+
 }

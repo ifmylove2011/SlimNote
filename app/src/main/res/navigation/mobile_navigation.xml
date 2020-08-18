@@ -61,5 +61,9 @@
     <fragment
         android:id="@+id/nav_note_add_fragment"
         android:name="com.xter.slimnotek.ui.note.AddNoteFragment"
-        android:label="@string/label_add"></fragment>
+        android:label="@string/label_add">
+        <action
+            android:id="@+id/add_to_notes"
+            app:destination="@id/nav_notes_fragment" />
+    </fragment>
 </navigation>

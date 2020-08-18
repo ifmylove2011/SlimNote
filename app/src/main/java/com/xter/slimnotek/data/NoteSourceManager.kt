@@ -1,7 +1,9 @@
 package com.xter.slimnotek.data
 
 import androidx.lifecycle.LiveData
+import com.xter.slimnotek.util.Utils
 import kotlinx.coroutines.*
+import java.util.*
 
 class NoteSourceManager(
     private val noteRemoteSource: NoteSource,
@@ -29,7 +31,12 @@ class NoteSourceManager(
     }
 
     override suspend fun refreshNotes() {
-        noteLocalSource.refreshNotes()
+        try {
+            noteRemoteSource.refreshNotes()
+        } catch (e: NotImplementedError) {
+            addNote(generateFakeNote())
+            observeNotes()
+        }
     }
 
     override suspend fun addNote(note: Note) {
@@ -61,5 +68,31 @@ class NoteSourceManager(
             }
         }
     }
+
+    /* -------------------------- 模拟一下 --------------------------- */
+
+    private fun generateFakeNote(): Note {
+        val firstDate = Utils.getNormalDate1()
+        val content = generateString(Random().nextInt(200) + 50)
+        val note = Note(
+            generateString(Random().nextInt(12) + 3),
+            content,
+            content.substring(0, 20),
+            firstDate,
+            firstDate,
+            firstDate
+        )
+        return note
+    }
+
+    fun generateString(size: Int): String {
+        val str = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        return str.run {
+            (0 until size).map {
+                this.get(Random().nextInt(str.size))
+            }.joinToString("")
+        }
+    }
+
 
 }

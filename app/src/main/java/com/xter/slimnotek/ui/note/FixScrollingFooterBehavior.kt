@@ -5,15 +5,17 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
+import com.xter.slimnotek.util.L
 
-class FixScrollingFooterBehavior constructor(context: Context, attr: AttributeSet) :
-    AppBarLayout.ScrollingViewBehavior() {
+class FixScrollingFooterBehavior @JvmOverloads constructor(context: Context, attr: AttributeSet? = null) :
+    AppBarLayout.ScrollingViewBehavior(context,attr) {
 
     override fun onDependentViewChanged(
         parent: CoordinatorLayout,
         child: View,
         dependency: View
     ): Boolean {
+        L.i("view changed:$child ,$dependency")
         val appBarLayout = dependency as AppBarLayout
         val result = super.onDependentViewChanged(parent, child, dependency)
         val bottomPadding: Int = calculateBottomPadding(appBarLayout)

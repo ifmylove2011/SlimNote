@@ -1,6 +1,7 @@
 package com.xter.slimnotek.data
 
 import androidx.lifecycle.LiveData
+import com.xter.slimnotek.util.L
 
 class NoteRemoteSource:NoteSource {
     override fun observeNotes(): LiveData<List<Note>> {

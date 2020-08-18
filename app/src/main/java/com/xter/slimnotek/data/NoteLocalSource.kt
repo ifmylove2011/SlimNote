@@ -18,7 +18,6 @@ class NoteLocalSource constructor(
 
     override fun observeNotes(): LiveData<List<Note>> {
         runBlocking {
-            L.d("Thread is ${Thread.currentThread().name}")
             refreshNotes()
         }
         return observableNotes
@@ -37,12 +36,12 @@ class NoteLocalSource constructor(
     }
 
     override suspend fun getNotes(): List<Note>? = withContext(ioDispatcher) {
-        L.d("Thread is ${Thread.currentThread().name}")
         return@withContext noteDao.findAll()
     }
 
     override suspend fun refreshNotes() {
         observableNotes.value = getNotes()
+        L.i("size:"+observableNotes.value?.size)
     }
 
     override suspend fun addNote(note: Note) {

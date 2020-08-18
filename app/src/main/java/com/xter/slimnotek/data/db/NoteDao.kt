@@ -44,6 +44,6 @@ interface NoteDao {
     @Query("select * from note where noteid = :noteid limit 1")
     fun findById(noteid:String):Note?
 
-    @Query("select * from note")
+    @Query("select * from note ORDER BY updateTime DESC")
     fun findAll(): List<Note>?
 }
