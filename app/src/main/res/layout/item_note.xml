@@ -19,9 +19,10 @@
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/ll_item_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
@@ -46,8 +47,8 @@
             android:id="@+id/tv_note_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{note.updateTime}"
             android:gravity="end"
+            android:text="@{note.updateTime}"
             android:textSize="16sp"
             tools:text="某年某月某日" />
     </LinearLayout>

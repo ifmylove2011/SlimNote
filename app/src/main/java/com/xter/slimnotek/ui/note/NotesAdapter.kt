@@ -1,5 +1,6 @@
 package com.xter.slimnotek.ui.note
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.xter.slimnotek.databinding.ItemNoteBinding
 import com.xter.slimnotek.util.L
 
 class NotesAdapter(private val viewModel: NoteViewModel) :
-    ListAdapter<Note, ViewHolder>(NoteDiffCallback()) {
+    ListAdapter<Note, ViewHolderK>(NoteDiffCallback()) {
 
     private lateinit var onItemClickListener: OnItemClickListener
 
@@ -21,30 +22,44 @@ class NotesAdapter(private val viewModel: NoteViewModel) :
         onItemClickListener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderK {
+        return ViewHolderK.from(parent)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.apply {
-            bind(viewModel, getItem(position))
-            itemView.let {
-                it.setOnClickListener { view ->
-                    onItemClickListener.onItemClick(view, holder.adapterPosition)
+    override fun onBindViewHolder(holderK: ViewHolderK, position: Int) {
+        holderK.apply {
+            val note = getItem(position)
+            bind(viewModel, note)
+            itemView.let { view ->
+                view.setOnClickListener {
+                    onItemClickListener.onItemClick(holderK, holderK.adapterPosition)
                 }
-                it.setOnLongClickListener { view ->
-                    onItemClickListener.onItemLongClick(view, holder.adapterPosition)
+                view.setOnLongClickListener {
+                    onItemClickListener.onItemLongClick(holderK, holderK.adapterPosition)
                     true
+                }
+                viewModel.states.value?.get(note)?.let { state ->
+                    L.d("state="+state.selected)
+                    if(state.selected){
+                        view.setBackgroundColor(Color.LTGRAY)
+                    }else{
+                        view.setBackgroundColor(Color.TRANSPARENT)
+                    }
                 }
             }
         }
     }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 }
 
-class ViewHolder private constructor(val binding: ItemNoteBinding) :
+class ViewHolderK private constructor(val binding: ItemNoteBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(vm: NoteViewModel, item: Note) {
+        L.i("bind:${binding.root.hashCode()}")
         binding.apply {
             this.noteViewModel = vm
             this.note = item
@@ -53,18 +68,18 @@ class ViewHolder private constructor(val binding: ItemNoteBinding) :
     }
 
     companion object {
-        fun from(parent: ViewGroup): ViewHolder =
+        fun from(parent: ViewGroup): ViewHolderK =
             parent.let {
                 val binding =
                     ItemNoteBinding.inflate(LayoutInflater.from(it.context), it, false)
-                ViewHolder(binding)
+                ViewHolderK(binding)
             }
     }
 }
 
 interface OnItemClickListener {
-    fun onItemClick(view: View, position: Int)
-    fun onItemLongClick(view: View, position: Int)
+    fun onItemClick(holderK: ViewHolderK, position: Int)
+    fun onItemLongClick(holderK: ViewHolderK, position: Int)
 }
 
 class NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
@@ -75,7 +90,6 @@ class NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
     override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
         return oldItem == newItem
     }
-
 }
 
 @BindingAdapter("items")

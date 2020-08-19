@@ -15,7 +15,7 @@ class FixScrollingFooterBehavior @JvmOverloads constructor(context: Context, att
         child: View,
         dependency: View
     ): Boolean {
-        L.i("view changed:$child ,$dependency")
+//        L.i("view changed:$child ,$dependency")
         val appBarLayout = dependency as AppBarLayout
         val result = super.onDependentViewChanged(parent, child, dependency)
         val bottomPadding: Int = calculateBottomPadding(appBarLayout)

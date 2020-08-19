@@ -62,6 +62,12 @@ class NoteLocalSource constructor(
         }
     }
 
+    override suspend fun deleteNotes(notes: List<Note>) {
+        withContext(ioDispatcher) {
+            noteDao.delete(notes)
+        }
+    }
+
     override suspend fun deleteAllNotes() {
         withContext(ioDispatcher) {
             noteDao.deleteAll()

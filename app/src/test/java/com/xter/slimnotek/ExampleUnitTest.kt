@@ -16,6 +16,12 @@ class ExampleUnitTest {
     }
 
     @Test
+    fun testNot(){
+        var a = true
+        println(a.not())
+    }
+
+    @Test
     fun testMap(){
         val str = ('a'..'z') + ('A'..'Z') +('0'..'9')
         println(str.shuffled().subList(0,4).joinToString(""))

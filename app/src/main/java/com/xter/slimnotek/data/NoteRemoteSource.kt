@@ -28,6 +28,10 @@ class NoteRemoteSource:NoteSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteNotes(notes: List<Note>) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun addNote(note: Note) {
         TODO("Not yet implemented")
     }

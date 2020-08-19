@@ -1,6 +1,7 @@
 package com.xter.slimnotek.data
 
 import androidx.lifecycle.LiveData
+import com.xter.slimnotek.util.L
 import com.xter.slimnotek.util.Utils
 import kotlinx.coroutines.*
 import java.util.*
@@ -57,7 +58,21 @@ class NoteSourceManager(
 
     override suspend fun deleteNote(noteId: String) {
         coroutineScope {
-            launch { noteLocalSource.deleteNote(noteId) }
+            launch {
+                noteLocalSource.deleteNote(noteId)
+                noteLocalSource.refreshNotes()
+                L.i("remove: id=$noteId")
+            }
+        }
+    }
+
+    override suspend fun deleteNotes(notes: List<Note>) {
+        coroutineScope {
+            launch {
+                noteLocalSource.deleteNotes(notes)
+                noteLocalSource.refreshNotes()
+                L.i("remove:${notes.size}")
+            }
         }
     }
 

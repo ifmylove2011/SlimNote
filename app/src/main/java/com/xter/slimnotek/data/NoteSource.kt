@@ -22,5 +22,7 @@ interface NoteSource {
 
     suspend fun deleteNote(noteId: String)
 
+    suspend fun deleteNotes(notes:List<Note>)
+
     suspend fun deleteAllNotes()
 }
