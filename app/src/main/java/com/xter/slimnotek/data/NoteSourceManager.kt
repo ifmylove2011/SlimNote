@@ -71,7 +71,6 @@ class NoteSourceManager(
             launch {
                 noteLocalSource.deleteNotes(notes)
                 noteLocalSource.refreshNotes()
-                L.i("remove:${notes.size}")
             }
         }
     }

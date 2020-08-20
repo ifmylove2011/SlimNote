@@ -21,4 +21,6 @@
     <string name="item_empty">无</string>
     <string name="label_notes_all">所有笔记</string>
     <string name="label_add">添加笔记</string>
+    <string name="item_delete">删除</string>
+    <string name="item_edit">编辑</string>
 </resources>

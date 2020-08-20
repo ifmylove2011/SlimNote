@@ -41,11 +41,14 @@ class NoteViewModel(
         it.isEmpty()
     }
 
+    /**
+     * 选中状态
+     */
     private val mStates: LiveData<HashMap<Note, State>> = MutableLiveData(HashMap())
     val states = mStates
 
-    private val mSelectedPosition = MutableLiveData<Int>()
-    val selectedPosition = mSelectedPosition
+    private val mSelectedNum = MutableLiveData<Int>(0)
+    val selectedNum = mSelectedNum
 
     init {
         mUpdate.value = true
@@ -58,14 +61,11 @@ class NoteViewModel(
         mUpdate.value = true
     }
 
-    fun remove(pos: Int) {
-        items.value?.get(pos)?.let { note ->
-            viewModelScope.launch {
-                noteSource.deleteNote(note.id)
-            }
-        }
-    }
-
+    /**
+     * 选中某项
+     * @param pos 位置索引
+     * @return state 当前状态
+     */
     fun selected(pos: Int): State? {
         var state: State? = null
         items.value?.get(pos)?.let { note ->
@@ -79,20 +79,38 @@ class NoteViewModel(
                 }
             }
         }
-        mSelectedPosition.value = pos
+        state?.let {
+            if (it.selected) {
+                if (mSelectedNum.value == -1) {
+                    mSelectedNum.value = 1
+                } else {
+                    mSelectedNum.value = mSelectedNum.value?.plus(1)
+                }
+            } else {
+                mSelectedNum.value = mSelectedNum.value?.minus(1)
+            }
+        }
         return state
     }
 
-    fun selectNote(note:Note):Boolean{
-        L.d("note:$note")
-        return false
+    fun selectedNotes(): List<Note>? {
+        return mStates.value?.filterValues { state ->
+            state.selected
+        }?.keys?.toMutableList()
     }
 
     fun remove() {
-
+        selectedNotes()?.let {
+            viewModelScope.launch {
+                noteSource.deleteNotes(it)
+            }
+            mSelectedNum.value = -1
+            mStates.value?.clear()
+        }
     }
 
-    inner class State constructor(var position: Int, var selected: Boolean){
+    /*--------------------------- 状态类 -------------------------- */
+    inner class State constructor(var position: Int, var selected: Boolean) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false

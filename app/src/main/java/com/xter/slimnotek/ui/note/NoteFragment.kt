@@ -1,11 +1,12 @@
 package com.xter.slimnotek.ui.note
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -51,28 +52,14 @@ class NoteFragment : Fragment() {
             noteFragBinding.notesViewModel?.let { viewModel ->
                 notesAdapter = NotesAdapter(viewModel)
             }
-            notesAdapter.setHasStableIds(true)
-//            setItemViewCacheSize(20)
             notesAdapter.setItemClickListener(object : OnItemClickListener {
                 override fun onItemClick(holderK: ViewHolderK, position: Int) {
                     L.d("pos:$position")
                 }
 
                 override fun onItemLongClick(holderK: ViewHolderK, position: Int) {
-                    val state = noteViewModel.selected(position)
+                    noteViewModel.selected(position)
                     notesAdapter.notifyItemChanged(position)
-//                    L.d("view:${holder.itemView.hashCode()}")
-//                    state?.let {
-//                        if (it.selected) {
-//                            holder.itemView.setBackgroundColor(Color.LTGRAY)
-////                            当被选中时，避免回收
-////                            holder.setIsRecyclable(false)
-//                        } else {
-//                            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
-//                            //未被选中时，可用回收
-////                            holder.setIsRecyclable(true)
-//                        }
-//                    }
                 }
             })
             adapter = notesAdapter
@@ -89,14 +76,15 @@ class NoteFragment : Fragment() {
                 noteFragBinding.rvNotesList.smoothScrollBy(0, -500)
             }
         })
-        noteViewModel.selectedPosition.observe(viewLifecycleOwner, Observer {
-            L.i("当前选中:${it}")
-            noteViewModel.states.value?.let { states ->
-                val size = states.size
-                if (size > 0) {
-                    activity?.findViewById<Toolbar>(R.id.toolbar)?.let {toolbar ->
-                        toolbar.title = "选中$size"
-                    }
+        noteViewModel.selectedNum.observe(viewLifecycleOwner, Observer { num ->
+            if (num < 0) {
+                view?.showSnackbar("删除成功", Snackbar.LENGTH_SHORT)
+                switchToolbar("所有笔记", false)
+            } else {
+                if (num > 0) {
+                    switchToolbar("选中$num", true)
+                } else {
+                    switchToolbar("所有笔记", false)
                 }
             }
         })
@@ -114,15 +102,42 @@ class NoteFragment : Fragment() {
         }
     }
 
-    private fun switchToolbar(scene: Int) {
-        when (scene) {
-            REMOVE_SCENE -> {
-                activity?.findViewById<Toolbar>(R.id.toolbar)?.let {
-                    it.title = "选中"
-                }
-            }
+    private fun switchToolbar(title: String, showMeun: Boolean) {
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
+            setHasOptionsMenu(showMeun)
+            toolbar.title = title
         }
+    }
 
+    private fun showDialog() {
+        AlertDialog.Builder(context).setTitle("删除笔记")
+            .setMessage("确认删除${noteViewModel.selectedNum.value}条笔记？")
+            .setPositiveButton(
+                "确定"
+            ) { dialogInterface, i ->
+                noteViewModel.remove()
+            }
+            .setNegativeButton(
+                "取消"
+            ) { dialogInterface, i ->
+                dialogInterface.dismiss()
+            }.also {
+                it.create().show()
+            }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.note_remove -> {
+                showDialog()
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.notes_list, menu)
     }
 
     private fun getScreenOffset(): Int? {

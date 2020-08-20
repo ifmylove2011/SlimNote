@@ -38,11 +38,13 @@ class NotesAdapter(private val viewModel: NoteViewModel) :
                     onItemClickListener.onItemLongClick(holderK, holderK.adapterPosition)
                     true
                 }
-                viewModel.states.value?.get(note)?.let { state ->
-                    L.d("state="+state.selected)
-                    if(state.selected){
+                val state = viewModel.states.value?.get(note)
+                if (state == null) {
+                    view.setBackgroundColor(Color.TRANSPARENT)
+                } else {
+                    if (state.selected) {
                         view.setBackgroundColor(Color.LTGRAY)
-                    }else{
+                    } else {
                         view.setBackgroundColor(Color.TRANSPARENT)
                     }
                 }
@@ -50,16 +52,15 @@ class NotesAdapter(private val viewModel: NoteViewModel) :
         }
     }
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+//    override fun getItemId(position: Int): Long {
+//        return position.toLong()
+//    }
 }
 
 class ViewHolderK private constructor(val binding: ItemNoteBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(vm: NoteViewModel, item: Note) {
-        L.i("bind:${binding.root.hashCode()}")
         binding.apply {
             this.noteViewModel = vm
             this.note = item

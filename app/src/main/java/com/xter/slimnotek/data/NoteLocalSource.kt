@@ -64,7 +64,8 @@ class NoteLocalSource constructor(
 
     override suspend fun deleteNotes(notes: List<Note>) {
         withContext(ioDispatcher) {
-            noteDao.delete(notes)
+            val size = noteDao.delete(notes)
+            L.w("dao delete : $size")
         }
     }
 
