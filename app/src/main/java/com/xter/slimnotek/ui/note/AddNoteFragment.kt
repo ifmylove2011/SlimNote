@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -58,14 +59,19 @@ class AddNoteFragment : Fragment() {
             Observer<String> {
                 view?.showSnackbar(it, Snackbar.LENGTH_SHORT)
             })
-        addNoteViewModel.completed.observe(viewLifecycleOwner,Observer<Boolean>{
-            if(it){
+        addNoteViewModel.completed.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
                 navigateToNotes()
             }
         })
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
-    private fun navigateToNotes(){
+    private fun navigateToNotes() {
         val action = AddNoteFragmentDirections.addToNotes("所有笔记")
         findNavController().navigate(action)
     }

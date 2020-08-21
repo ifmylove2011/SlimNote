@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.xter.slimnotek.data.NoteSource
 import com.xter.slimnotek.ui.note.AddNoteViewModel
+import com.xter.slimnotek.ui.note.NoteDetailViewModel
 import com.xter.slimnotek.ui.note.NoteViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -24,6 +25,7 @@ class NodeViewModeFactory constructor(
             when {
                 it.isAssignableFrom(NoteViewModel::class.java) -> NoteViewModel(noteSource, handle)
                 it.isAssignableFrom(AddNoteViewModel::class.java) -> AddNoteViewModel(noteSource)
+                it.isAssignableFrom(NoteDetailViewModel::class.java) -> NoteDetailViewModel(noteSource)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             } as T

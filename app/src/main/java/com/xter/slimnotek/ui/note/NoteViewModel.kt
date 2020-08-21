@@ -22,6 +22,11 @@ class NoteViewModel(
             viewModelScope.launch {
                 noteSource.refreshNotes()
                 mDataLoading.value = false
+                if (mFirstFlag) {
+                    mFirstFlag = false
+                } else {
+                    operationState.value = REFRESH_SUCCESS
+                }
             }
         }
         noteSource.observeNotes().distinctUntilChanged()
@@ -50,8 +55,13 @@ class NoteViewModel(
     private val mSelectedNum = MutableLiveData<Int>(0)
     val selectedNum = mSelectedNum
 
+    val operationState = MutableLiveData(0)
+
+    private var mFirstFlag = true
+
     init {
         mUpdate.value = true
+        mFirstFlag = true
     }
 
     /**
@@ -104,9 +114,14 @@ class NoteViewModel(
             viewModelScope.launch {
                 noteSource.deleteNotes(it)
             }
-            mSelectedNum.value = -1
-            mStates.value?.clear()
+            clearFocus()
         }
+        operationState.value = REMOVE_SUCCESS
+    }
+
+    fun clearFocus() {
+        mSelectedNum.value = -1
+        mStates.value?.clear()
     }
 
     /*--------------------------- 状态类 -------------------------- */

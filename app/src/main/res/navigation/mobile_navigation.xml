@@ -52,6 +52,10 @@
         <action
             android:id="@+id/notes_to_add"
             app:destination="@id/nav_note_add_fragment" />
+        <action
+            android:id="@+id/notes_to_detail"
+            app:destination="@id/nav_note_detail_fragment"
+            />
         <argument
             android:name="title"
             android:defaultValue="所有笔记"
@@ -65,5 +69,20 @@
         <action
             android:id="@+id/add_to_notes"
             app:destination="@id/nav_notes_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_note_detail_fragment"
+        android:name="com.xter.slimnotek.ui.note.NoteDetailFragment"
+        android:label="{title}"
+        >
+        <argument
+            android:name="noteid"
+            app:argType="string"
+            />
+        <argument
+            android:name="title"
+            android:defaultValue="笔记"
+            app:argType="string" />
     </fragment>
 </navigation>

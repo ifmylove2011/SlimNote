@@ -51,10 +51,6 @@ class NotesAdapter(private val viewModel: NoteViewModel) :
             }
         }
     }
-
-//    override fun getItemId(position: Int): Long {
-//        return position.toLong()
-//    }
 }
 
 class ViewHolderK private constructor(val binding: ItemNoteBinding) :

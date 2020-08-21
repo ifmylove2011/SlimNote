@@ -2,11 +2,10 @@ package com.xter.slimnotek.ui.note
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -54,7 +53,9 @@ class NoteFragment : Fragment() {
             }
             notesAdapter.setItemClickListener(object : OnItemClickListener {
                 override fun onItemClick(holderK: ViewHolderK, position: Int) {
-                    L.d("pos:$position")
+                    noteViewModel.items.value?.get(position)?.let { note ->
+                        navigateToDetail(note.id, note.title)
+                    }
                 }
 
                 override fun onItemLongClick(holderK: ViewHolderK, position: Int) {
@@ -70,21 +71,21 @@ class NoteFragment : Fragment() {
                 navigateToAddNote()
             }
         }
-        noteViewModel.dataLoading.observe(viewLifecycleOwner, Observer { bool ->
-            if (!bool) {
-                view?.showSnackbar("刷新成功", Snackbar.LENGTH_SHORT)
-                noteFragBinding.rvNotesList.smoothScrollBy(0, -500)
+        noteViewModel.selectedNum.observe(viewLifecycleOwner, Observer { num ->
+            if (num > 0) {
+                switchToolbar("选中$num", true)
+            } else {
+                switchToolbar("所有笔记", false)
             }
         })
-        noteViewModel.selectedNum.observe(viewLifecycleOwner, Observer { num ->
-            if (num < 0) {
-                view?.showSnackbar("删除成功", Snackbar.LENGTH_SHORT)
-                switchToolbar("所有笔记", false)
-            } else {
-                if (num > 0) {
-                    switchToolbar("选中$num", true)
-                } else {
-                    switchToolbar("所有笔记", false)
+        noteViewModel.operationState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                REMOVE_SUCCESS -> {
+                    view?.showSnackbar("删除成功", Snackbar.LENGTH_SHORT)
+                }
+                REFRESH_SUCCESS -> {
+                    noteFragBinding.rvNotesList.smoothScrollBy(0, -500)
+                    view?.showSnackbar("刷新成功", Snackbar.LENGTH_SHORT)
                 }
             }
         })
@@ -92,7 +93,12 @@ class NoteFragment : Fragment() {
     }
 
     private fun navigateToAddNote() {
-        val action = NoteFragmentDirections.notesToAdd();
+        val action = NoteFragmentDirections.notesToAdd()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToDetail(noteid: String, title: String) {
+        val action = NoteFragmentDirections.notesToDetail(noteid, title)
         findNavController().navigate(action)
     }
 
@@ -106,6 +112,12 @@ class NoteFragment : Fragment() {
         activity?.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
             setHasOptionsMenu(showMeun)
             toolbar.title = title
+            if (showMeun) {
+                toolbar.setNavigationOnClickListener {
+                    noteViewModel.clearFocus()
+                    notesAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 
@@ -145,4 +157,5 @@ class NoteFragment : Fragment() {
     }
 }
 
-const val REMOVE_SCENE: Int = 1
+const val REMOVE_SUCCESS: Int = 1
+const val REFRESH_SUCCESS: Int = 2

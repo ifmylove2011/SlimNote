@@ -52,6 +52,7 @@ class NoteSourceManager(
         coroutineScope {
             launch {
                 noteLocalSource.updateNote(note)
+                noteLocalSource.refreshNotes()
             }
         }
     }
