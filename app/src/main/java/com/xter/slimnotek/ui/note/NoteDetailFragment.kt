@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,6 +17,7 @@ import com.xter.slimnotek.NoteApp
 import com.xter.slimnotek.R
 import com.xter.slimnotek.databinding.FragmentNoteDetailBinding
 import com.xter.slimnotek.extension.NodeViewModeFactory
+import com.xter.slimnotek.util.FontLoader
 
 class NoteDetailFragment : Fragment() {
 
@@ -75,9 +76,15 @@ class NoteDetailFragment : Fragment() {
         detailViewModel.snackbarText.observe(viewLifecycleOwner, Observer {
             view?.showSnackbar(it, Snackbar.LENGTH_SHORT)
         })
-        activity?.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)?.let { toolbar ->
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
+            }
+        }
+        context?.let {
+            FontLoader.getMNJZY(it)?.let { typeface ->
+                noteDetailBinding.etDetailContent.typeface = typeface
+                noteDetailBinding.etDetailTitle.typeface = typeface
             }
         }
     }

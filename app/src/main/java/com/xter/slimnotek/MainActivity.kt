@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import androidx.navigation.fragment.findNavController
 import com.xter.slimnotek.ui.home.HomeFragmentDirections
+import com.xter.slimnotek.ui.widget.NoteWidget
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +39,16 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_tools, R.id.nav_share, R.id.nav_send), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        intent.action?.let {action->
+            if(action == NoteWidget.ACTION_ADD){
+                findNavController(R.id.nav_host_fragment).navigate(R.id.nav_note_add_fragment)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

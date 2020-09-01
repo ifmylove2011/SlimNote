@@ -47,6 +47,7 @@ class AddNoteFragment : Fragment() {
         return addNoteBinding.root
     }
 
+    //TODO 桌面小工具
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         addNoteBinding.lifecycleOwner = this.viewLifecycleOwner

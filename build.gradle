@@ -63,4 +63,5 @@ ext {
     archLifecycleVersion = '2.2.0'
     archTestingVersion = '2.1.0'
     navigationVersion = '2.3.0'
+    workVersion = '2.4.0'
 }

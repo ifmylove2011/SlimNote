@@ -61,7 +61,6 @@ class NoteViewModel(
 
     init {
         mUpdate.value = true
-        mFirstFlag = true
     }
 
     /**
