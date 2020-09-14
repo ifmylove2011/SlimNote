@@ -2,7 +2,6 @@ package com.xter.slimnotek.ui.note
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -17,7 +16,6 @@ import com.xter.slimnotek.NoteApp
 import com.xter.slimnotek.R
 import com.xter.slimnotek.databinding.FragmentNoteBinding
 import com.xter.slimnotek.extension.NodeViewModeFactory
-import com.xter.slimnotek.util.L
 import com.xter.slimnotek.util.QuickItemDecoration
 
 
