@@ -9,6 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.xter.slimnotek.R
+import com.xter.slimnotek.data.net.RetrofitHelper
+import com.xter.slimnotek.extension.Constant
+import com.xter.slimnotek.util.L
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class GalleryFragment : Fragment() {
 
@@ -26,6 +32,16 @@ class GalleryFragment : Fragment() {
         galleryViewModel.text.observe(this, Observer {
             textView.text = it
         })
+        testData()
         return root
+    }
+
+    fun testData(){
+        GlobalScope.launch {
+            RetrofitHelper.INSTANCE.getJuHe().getNews("top",1,5,appKey = Constant.KEY_JUHE_NEWS).subscribe({ response->
+                L.d("news size = ${response.result.data.size}")
+            })
+        }
+
     }
 }

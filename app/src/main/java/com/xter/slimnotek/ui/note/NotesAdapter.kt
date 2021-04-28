@@ -2,16 +2,13 @@ package com.xter.slimnotek.ui.note
 
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.xter.slimnotek.data.Note
+import com.xter.slimnotek.data.entity.Note
 import com.xter.slimnotek.databinding.ItemNoteBinding
-import com.xter.slimnotek.util.L
 
 class NotesAdapter(private val viewModel: NoteViewModel) :
     ListAdapter<Note, ViewHolderK>(NoteDiffCallback()) {

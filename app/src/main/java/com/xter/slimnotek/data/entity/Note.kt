@@ -1,4 +1,4 @@
-package com.xter.slimnotek.data
+package com.xter.slimnotek.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

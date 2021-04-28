@@ -2,7 +2,6 @@ package com.xter.slimnotek.util
 
 import android.text.TextUtils
 import android.util.Log
-import com.jinxin.gateway3.common.util.LogFileWriter
 
 /**
  * 日志工具类

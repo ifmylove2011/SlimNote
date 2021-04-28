@@ -11,7 +11,7 @@
 
         <variable
             name="note"
-            type="com.xter.slimnotek.data.Note" />
+            type="com.xter.slimnotek.data.entity.Note" />
 
         <variable
             name="noteViewModel"

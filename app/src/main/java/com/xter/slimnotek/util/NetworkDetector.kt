@@ -1,4 +1,4 @@
-package com.xter.slimnotek.extension
+package com.xter.slimnotek.util
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -9,7 +9,6 @@ import android.net.*
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.util.Log
-import com.xter.slimnotek.util.L
 
 /**
  * @author xter

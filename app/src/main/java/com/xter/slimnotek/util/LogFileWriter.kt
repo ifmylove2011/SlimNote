@@ -1,4 +1,4 @@
-package com.jinxin.gateway3.common.util
+package com.xter.slimnotek.util
 
 import android.os.Environment
 import com.xter.slimnotek.util.FileUtil.createFile

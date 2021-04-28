@@ -1,7 +1,7 @@
 package com.xter.slimnotek.data.db
 
 import androidx.room.*
-import com.xter.slimnotek.data.Note
+import com.xter.slimnotek.data.entity.Note
 
 @Dao
 interface NoteDao {
@@ -42,7 +42,7 @@ interface NoteDao {
     fun findByTitle(title: String?): List<Note>?
 
     @Query("select * from note where noteid = :noteid limit 1")
-    fun findById(noteid:String):Note?
+    fun findById(noteid:String): Note?
 
     @Query("select * from note ORDER BY updateTime DESC")
     fun findAll(): List<Note>?

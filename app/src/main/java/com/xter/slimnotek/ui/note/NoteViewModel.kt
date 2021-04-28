@@ -1,9 +1,8 @@
 package com.xter.slimnotek.ui.note
 
 import androidx.lifecycle.*
-import com.xter.slimnotek.data.Note
+import com.xter.slimnotek.data.entity.Note
 import com.xter.slimnotek.data.NoteSource
-import com.xter.slimnotek.util.L
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
@@ -71,7 +70,7 @@ class NoteViewModel(
     }
 
     /**
-     * 选中某项
+     * 选中某项，改变状态
      * @param pos 位置索引
      * @return state 当前状态
      */

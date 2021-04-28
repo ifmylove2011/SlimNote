@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xter.slimnotek.data.Note
+import com.xter.slimnotek.data.entity.Note
 import com.xter.slimnotek.data.NoteSource
 import com.xter.slimnotek.util.Utils
 import kotlinx.coroutines.launch
