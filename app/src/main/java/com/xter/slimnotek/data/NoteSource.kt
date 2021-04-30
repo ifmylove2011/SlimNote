@@ -1,7 +1,9 @@
 package com.xter.slimnotek.data
 
 import androidx.lifecycle.LiveData
+import com.xter.slimnotek.data.entity.News
 import com.xter.slimnotek.data.entity.Note
+import io.reactivex.Observable
 
 interface NoteSource {
 
@@ -26,4 +28,9 @@ interface NoteSource {
     suspend fun deleteNotes(notes:List<Note>)
 
     suspend fun deleteAllNotes()
+
+    suspend fun refreshNews()
+
+    suspend fun getNews(): Observable<BaseJuheResponse<NewsCase<List<News>>>>
+
 }

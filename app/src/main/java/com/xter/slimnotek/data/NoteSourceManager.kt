@@ -1,9 +1,11 @@
 package com.xter.slimnotek.data
 
 import androidx.lifecycle.LiveData
+import com.xter.slimnotek.data.entity.News
 import com.xter.slimnotek.data.entity.Note
 import com.xter.slimnotek.util.L
 import com.xter.slimnotek.util.Utils
+import io.reactivex.Observable
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -83,6 +85,14 @@ class NoteSourceManager(
                 launch { noteLocalSource.deleteAllNotes() }
             }
         }
+    }
+
+    override suspend fun refreshNews() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNews(): Observable<BaseJuheResponse<NewsCase<List<News>>>> {
+        return noteRemoteSource.getNews()
     }
 
     /* -------------------------- 模拟一下 --------------------------- */

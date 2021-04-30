@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.xter.slimnotek.util.L
 import com.xter.slimnotek.data.db.NoteDao
+import com.xter.slimnotek.data.entity.News
 import com.xter.slimnotek.data.entity.Note
+import io.reactivex.Observable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -74,5 +76,13 @@ class NoteLocalSource constructor(
         withContext(ioDispatcher) {
             noteDao.deleteAll()
         }
+    }
+
+    override suspend fun refreshNews() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNews(): Observable<BaseJuheResponse<NewsCase<List<News>>>> {
+        TODO("Not yet implemented")
     }
 }

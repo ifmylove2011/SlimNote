@@ -25,6 +25,7 @@
     <string name="item_edit">编辑</string>
     <string name="appwidget_text">添加笔记</string>
     <string name="add_widget">组件</string>
+    <string name="item_author">作者</string>
 
     <string name="exit_hint">再次点击将退出应用</string>
 </resources>

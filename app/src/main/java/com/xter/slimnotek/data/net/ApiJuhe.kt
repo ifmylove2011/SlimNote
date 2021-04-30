@@ -20,7 +20,7 @@ interface ApiJuhe {
     fun getNews(
         @Query("type") type: String = "top",
         @Query("page") page: Int = 1,
-        @Query("page_size") pageSize: Int = 5,
+        @Query("page_size") pageSize: Int = 15,
         @Query("key") appKey: String = Constant.KEY_JUHE_NEWS
     ): Observable<BaseJuheResponse<NewsCase<List<News>>>>
 }

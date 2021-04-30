@@ -14,9 +14,9 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "news")
 data class News(
     @PrimaryKey
-    @ColumnInfo(name = "newsId")
+    @ColumnInfo(name = "id")
     @SerializedName("uniquekey")
-    var uniquekey: String,
+    var id: String,
     var title: String,
     var date: String,
     var category: String,
@@ -48,13 +48,13 @@ data class News(
 
         other as News
 
-        if (uniquekey != other.uniquekey) return false
+        if (id != other.id) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return uniquekey.hashCode()
+        return id.hashCode()
     }
 
     override fun toString(): String {

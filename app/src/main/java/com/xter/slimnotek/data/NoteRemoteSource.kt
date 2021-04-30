@@ -1,9 +1,16 @@
 package com.xter.slimnotek.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.xter.slimnotek.data.entity.News
 import com.xter.slimnotek.data.entity.Note
+import com.xter.slimnotek.data.net.RetrofitHelper
+import io.reactivex.Observable
 
 class NoteRemoteSource:NoteSource {
+
+    private val observableNotes = MutableLiveData<List<News>>()
+
     override fun observeNotes(): LiveData<List<Note>> {
         TODO("Not yet implemented")
     }
@@ -46,5 +53,13 @@ class NoteRemoteSource:NoteSource {
 
     override suspend fun deleteAllNotes() {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun refreshNews() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNews(): Observable<BaseJuheResponse<NewsCase<List<News>>>> {
+        return RetrofitHelper.INSTANCE.getJuHe().getNews()
     }
 }
