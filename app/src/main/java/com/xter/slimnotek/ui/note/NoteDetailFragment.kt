@@ -18,14 +18,21 @@ import com.xter.slimnotek.R
 import com.xter.slimnotek.databinding.FragmentNoteDetailBinding
 import com.xter.slimnotek.extension.NodeViewModeFactory
 import com.xter.slimnotek.util.FontLoader
+import com.xter.slimnotek.util.L
 
 class NoteDetailFragment : Fragment() {
 
     companion object {
-        fun newInstance() = NoteDetailFragment()
+        fun create(id: String?):NoteDetailFragment{
+            val fragment = NoteDetailFragment()
+            val bundle = Bundle()
+            bundle.putString("noteid",id)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
-    private val args: NoteDetailFragmentArgs by navArgs()
+//    private val args: NoteDetailFragmentArgs by navArgs()
 
     private lateinit var noteDetailBinding: FragmentNoteDetailBinding
 
@@ -44,13 +51,17 @@ class NoteDetailFragment : Fragment() {
             .apply {
                 viewmodel = detailViewModel
             }
+        arguments?.getString("noteid")?.let {
+            detailViewModel.load(it)
+        }
         return noteDetailBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         noteDetailBinding.lifecycleOwner = this.viewLifecycleOwner
-        detailViewModel.load(args.noteid)
+
+//        detailViewModel.load(args.noteid)
         activity?.findViewById<FloatingActionButton>(R.id.fab_edit_note)?.run {
             setOnClickListener {
                 detailViewModel.editable.value?.let { editable ->

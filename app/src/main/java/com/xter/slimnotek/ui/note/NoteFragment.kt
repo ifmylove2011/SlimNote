@@ -2,7 +2,6 @@ package com.xter.slimnotek.ui.note
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -17,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.xter.slimnotek.NoteApp
 import com.xter.slimnotek.R
 import com.xter.slimnotek.databinding.FragmentNoteBinding
+import com.xter.slimnotek.extension.SimpleLinearSnapHelper
 import com.xter.slimnotek.extension.NodeViewModeFactory
 import com.xter.slimnotek.util.L
 import com.xter.slimnotek.util.QuickItemDecoration
@@ -54,9 +54,11 @@ class NoteFragment : Fragment() {
             }
             notesAdapter.setItemClickListener(object : OnItemClickListener {
                 override fun onItemClick(holderK: ViewHolderK, position: Int) {
-                    noteViewModel.items.value?.get(position)?.let { note ->
-                        navigateToDetail(note.id, note.title)
-                    }
+                    L.d("pos${position}")
+//                    noteViewModel.items.value?.get(position)?.let { note ->
+//                        navigateToDetail(note.id, note.title)
+//                    }
+                    navigateToContainer(position)
                 }
 
                 override fun onItemLongClick(holderK: ViewHolderK, position: Int) {
@@ -66,36 +68,42 @@ class NoteFragment : Fragment() {
             })
             adapter = notesAdapter
             addItemDecoration(QuickItemDecoration(context, LinearLayoutManager.VERTICAL))
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    when (newState) {
-                        RecyclerView.SCROLL_STATE_IDLE -> {
-                            L.d("idle")
-                            (layoutManager as LinearLayoutManager).let {
-                                val firstVisibleItemPos = it.findFirstVisibleItemPosition()
-                                val lastCompleteItemPos = it.findLastCompletelyVisibleItemPosition()
-                                val midItemPos = (lastCompleteItemPos - firstVisibleItemPos) / 2
-                                it.getChildAt(midItemPos).let { view ->
-                                    view?.setBackgroundColor(Color.RED)
-                                }
-                            }
-                        }
-                        RecyclerView.SCROLL_STATE_SETTLING -> {
-                            L.d("set")
-                        }
-                        RecyclerView.SCROLL_STATE_DRAGGING -> {
-                            L.d("drag")
-                        }
-                    }
-                }
-            })
+            val hls = SimpleLinearSnapHelper(
+                context,
+                150f,
+                RecyclerView.VERTICAL
+            )
+            hls.attachToRecyclerView(this)
+//            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                    super.onScrollStateChanged(recyclerView, newState)
+//                    when (newState) {
+//                        RecyclerView.SCROLL_STATE_IDLE -> {
+//                            L.d("idle")
+////                            (layoutManager as LinearLayoutManager).let {
+////                                val firstVisibleItemPos = it.findFirstVisibleItemPosition()
+////                                val lastCompleteItemPos = it.findLastCompletelyVisibleItemPosition()
+////                                val midItemPos = (lastCompleteItemPos - firstVisibleItemPos) / 2
+////                                it.getChildAt(midItemPos).let { view ->
+////                                    view?.setBackgroundColor(Color.RED)
+////                                }
+////                            }
+//                        }
+//                        RecyclerView.SCROLL_STATE_SETTLING -> {
+//                            L.d("set")
+//                        }
+//                        RecyclerView.SCROLL_STATE_DRAGGING -> {
+//                            L.d("drag")
+//                        }
+//                    }
+//                }
+//            })
         }
-//        noteFragBinding.fabAddNote?.run {
-//            setOnClickListener {
-//                navigateToAddNote()
-//            }
-//        }
+        noteFragBinding.fabAddNote?.run {
+            setOnClickListener {
+                navigateToAddNote()
+            }
+        }
         noteViewModel.selectedNum.observe(viewLifecycleOwner, Observer { num ->
             if (num > 0) {
                 switchToolbar("选中$num", true)
@@ -123,7 +131,12 @@ class NoteFragment : Fragment() {
     }
 
     private fun navigateToDetail(noteid: String, title: String) {
-        val action = NoteFragmentDirections.notesToDetail(noteid, title)
+//        val action = NoteFragmentDirections.notesToDetail(noteid, title)
+//        findNavController().navigate(action)
+    }
+
+    private fun navigateToContainer(pos:Int){
+        val action = NoteFragmentDirections.notesToContainer(noteViewModel.getItemIds(),pos)
         findNavController().navigate(action)
     }
 

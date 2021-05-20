@@ -67,4 +67,6 @@ ext {
     gsonVersion = '2.8.5'
     converterGsonVersion = '2.0.2'
     rxjavaAdaterVersion = '2.0.2'
+    glideVersion = '4.11.0'
+
 }

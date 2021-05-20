@@ -3,7 +3,9 @@ package com.xter.slimnotek.ui.note
 import androidx.lifecycle.*
 import com.xter.slimnotek.data.entity.Note
 import com.xter.slimnotek.data.NoteSource
+import com.xter.slimnotek.util.L
 import kotlinx.coroutines.launch
+import java.lang.StringBuilder
 
 class NoteViewModel(
     private val noteSource: NoteSource,
@@ -120,6 +122,15 @@ class NoteViewModel(
     fun clearFocus() {
         mSelectedNum.value = -1
         mStates.value?.clear()
+    }
+
+    fun getItemIds():String{
+        val sb = StringBuilder()
+        for(note in mItems.value!!){
+            sb.append(note.id).append(",")
+        }
+        sb.deleteCharAt(sb.length-1)
+        return sb.toString()
     }
 
     /*--------------------------- 状态类 -------------------------- */

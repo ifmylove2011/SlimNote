@@ -22,6 +22,17 @@
         tools:layout="@layout/fragment_news" />
 
     <fragment
+        android:id="@+id/nav_container"
+        android:name="com.xter.slimnotek.ui.note.NoteDetailContainerFragment">
+        <argument
+            android:name="noteids"
+            app:argType="string" />
+        <argument
+            android:name="curPos"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.xter.slimnotek.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
@@ -55,6 +66,9 @@
         <action
             android:id="@+id/notes_to_detail"
             app:destination="@id/nav_note_detail_fragment" />
+        <action
+            android:id="@+id/notes_to_container"
+            app:destination="@id/nav_container" />
         <argument
             android:name="title"
             android:defaultValue="所有笔记"
@@ -73,13 +87,13 @@
     <fragment
         android:id="@+id/nav_note_detail_fragment"
         android:name="com.xter.slimnotek.ui.note.NoteDetailFragment"
-        android:label="{title}">
-        <argument
-            android:name="noteid"
-            app:argType="string" />
-        <argument
-            android:name="title"
-            android:defaultValue="笔记"
-            app:argType="string" />
+        android:label="">
+<!--        <argument-->
+<!--            android:name="noteid"-->
+<!--            app:argType="string" />-->
+<!--        <argument-->
+<!--            android:name="title"-->
+<!--            android:defaultValue="笔记"-->
+<!--            app:argType="string" />-->
     </fragment>
 </navigation>

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xter.slimnotek.data.entity.Note
 import com.xter.slimnotek.data.NoteSource
+import com.xter.slimnotek.util.L
 import com.xter.slimnotek.util.Utils
 import kotlinx.coroutines.launch
 
